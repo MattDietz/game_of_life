@@ -84,6 +84,15 @@ def draw_grid(screen, grid, grid_width, grid_height):
             pygame.draw.rect(screen, color, rect)
 
 
+def write_to_file(grid, grid_width, grid_height):
+    with open("output.txt", 'w') as f:
+        f.write("%d, %d, 0, 0, 0, 0\n" % (grid_width, grid_height))
+        flat_grid = []
+        for g in grid:
+            flat_grid.extend((str(a) for a in g))
+        f.write(",".join(flat_grid))
+
+
 def flood(grid, grid_width, grid_height):
     flood_grid = []
 
@@ -154,6 +163,8 @@ def run_game(screen, grid_width, grid_height):
                     draw_once = True
                 if event.key == pygame.locals.K_c:
                     grid = init_grid(grid_width, grid_height)
+                if event.key == pygame.locals.K_w:
+                    write_to_file(grid, grid_width, grid_height)
 
         pygame.event.pump()
         if not paused:
